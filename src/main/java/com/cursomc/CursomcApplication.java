@@ -1,9 +1,6 @@
 package com.cursomc;
 
-<<<<<<< HEAD
 import java.text.SimpleDateFormat;
-=======
->>>>>>> origin/master
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +13,21 @@ import com.cursomc.domain.Cidade;
 import com.cursomc.domain.Cliente;
 import com.cursomc.domain.Endereco;
 import com.cursomc.domain.Estado;
-<<<<<<< HEAD
-import com.cursomc.domain.Pagamento;
+import com.cursomc.domain.ItemPedido;
 import com.cursomc.domain.PagamentoComBoleto;
 import com.cursomc.domain.PagamentoComCartao;
 import com.cursomc.domain.Pedido;
 import com.cursomc.domain.Produto;
 import com.cursomc.domain.enuns.EstadoPagamento;
-=======
-import com.cursomc.domain.Produto;
->>>>>>> origin/master
 import com.cursomc.domain.enuns.TipoCliente;
 import com.cursomc.repository.CategoriaRepository;
 import com.cursomc.repository.CidadeRepository;
 import com.cursomc.repository.ClienteRepository;
 import com.cursomc.repository.EnderecoRepository;
 import com.cursomc.repository.EstadoRepository;
-<<<<<<< HEAD
+import com.cursomc.repository.ItemPedidoRepository;
 import com.cursomc.repository.PagamentoRepository;
 import com.cursomc.repository.PedidoRepository;
-=======
->>>>>>> origin/master
 import com.cursomc.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -60,16 +51,16 @@ public class CursomcApplication implements CommandLineRunner {// Permite executa
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-<<<<<<< HEAD
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
-=======
->>>>>>> origin/master
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
@@ -120,7 +111,6 @@ public class CursomcApplication implements CommandLineRunner {// Permite executa
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
-<<<<<<< HEAD
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
@@ -137,8 +127,16 @@ public class CursomcApplication implements CommandLineRunner {// Permite executa
 		
 		pedidoRepository.saveAll(Arrays.asList(pedido1, pedido2));
 		pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
-=======
->>>>>>> origin/master
+		
+		ItemPedido ip1 = new ItemPedido(pedido1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(pedido1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(pedido2, p2, 0.00, 1, 800.00);
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
