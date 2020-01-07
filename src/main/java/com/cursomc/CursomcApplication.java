@@ -68,6 +68,8 @@ public class CursomcApplication implements CommandLineRunner {// Permite executa
 	@Override
 	public void run(String... args) throws Exception {
 
+		
+		
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		

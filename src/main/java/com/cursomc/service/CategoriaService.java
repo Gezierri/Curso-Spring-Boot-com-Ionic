@@ -22,4 +22,9 @@ public class CategoriaService {
 				));
 	}
 
+	public Categoria inserir(Categoria categoria) {
+		categoria.setId(null);
+		return categoriaRepository.save(categoria);
+	}
+
 }
