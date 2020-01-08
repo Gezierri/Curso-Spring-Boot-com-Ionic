@@ -20,7 +20,7 @@ public class ClienteResources {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> find(@PathVariable Integer id){
-		Cliente clienteSalvo = clienteService.buscarCliente(id);
-		return ResponseEntity.status(HttpStatus.OK).body(clienteSalvo);
+		Cliente cliente = clienteService.find(id);
+		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}
 }
