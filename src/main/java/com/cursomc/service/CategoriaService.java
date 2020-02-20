@@ -29,7 +29,7 @@ public class CategoriaService {
 				));
 	}
 
-	public Categoria inserir(Categoria categoria) {
+	public Categoria insert(Categoria categoria) {
 		categoria.setId(null);
 		return categoriaRepository.save(categoria);
 	}
