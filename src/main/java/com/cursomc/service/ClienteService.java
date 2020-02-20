@@ -10,8 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.cursomc.domain.Cidade;
 import com.cursomc.domain.Cliente;
+import com.cursomc.domain.Endereco;
+import com.cursomc.domain.enuns.TipoCliente;
 import com.cursomc.dto.ClienteDTO;
+import com.cursomc.dto.ClienteNewDTO;
 import com.cursomc.repository.ClienteRepository;
 import com.cursomc.service.exceptions.DataIntegrationException;
 import com.cursomc.service.exceptions.ObjectNotFoundException;
@@ -21,7 +25,7 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	public Cliente find(Integer id){
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 		return cliente.orElseThrow(() -> new ObjectNotFoundException(
@@ -34,6 +38,21 @@ public class ClienteService {
 
 	public Cliente fromDto(ClienteDTO clienteDTO) {
 		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null, null);
+	}
+	
+	public Cliente fromDto(ClienteNewDTO clienteNewDTO) {
+		Cliente cliente  = new Cliente(null, clienteNewDTO.getNome(), clienteNewDTO.getEmail(), clienteNewDTO.getCpfOuCnpj(), TipoCliente.toEnum(clienteNewDTO.getTipo()));
+		Cidade cidade = new Cidade(clienteNewDTO.getCidadeId(), null, null);
+		Endereco endereco = new Endereco(null, clienteNewDTO.getLogradouro(), clienteNewDTO.getComplemento(), clienteNewDTO.getNumero(), clienteNewDTO.getBairro(), clienteNewDTO.getCep(), cidade, cliente);
+		cliente.getEnderecos().add(endereco);
+		cliente.getTelefones().add(clienteNewDTO.getTelefone1());
+		if (clienteNewDTO.getTelefone2() != null) {
+			cliente.getTelefones().add(clienteNewDTO.getTelefone2());
+		}
+		if (clienteNewDTO.getTelefone3() != null) {
+			cliente.getTelefones().add(clienteNewDTO.getTelefone3());
+		}
+		return cliente;
 	}
 
 	public Cliente inserir(Cliente cliente) {
