@@ -1,5 +1,6 @@
 package com.cursomc.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class PedidoService {
 		return pedido.orElseThrow(() -> new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()
 				));
+	}
+
+	public List<Pedido> findAll() {
+		List<Pedido> list = pedidoRepository.findAll();
+		return list;
 	}
 
 }

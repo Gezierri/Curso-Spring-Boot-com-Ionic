@@ -1,5 +1,7 @@
 package com.cursomc.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +24,11 @@ public class PedidoResource {
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		Pedido pedidoSalvo = pedidoService.find(id);
 		return ResponseEntity.status(HttpStatus.OK).body(pedidoSalvo);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Pedido>>list(){
+		List<Pedido> list = pedidoService.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 }
