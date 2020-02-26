@@ -1,12 +1,18 @@
 package com.cursomc.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cursomc.domain.ItemPedido;
+import com.cursomc.domain.PagamentoComBoleto;
 import com.cursomc.domain.Pedido;
+import com.cursomc.domain.enuns.EstadoPagamento;
+import com.cursomc.repository.ItemPedidoRepository;
+import com.cursomc.repository.PagamentoRepository;
 import com.cursomc.repository.PedidoRepository;
 import com.cursomc.service.exceptions.ObjectNotFoundException;
 
@@ -15,6 +21,18 @@ public class PedidoService {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ProdutoService produtoService;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private BoletoService boletoService;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> pedido = pedidoRepository.findById(id);
@@ -26,6 +44,26 @@ public class PedidoService {
 	public List<Pedido> findAll() {
 		List<Pedido> list = pedidoRepository.findAll();
 		return list;
+	}
+	
+	public Pedido insert(Pedido pedido) {
+		pedido.setId(null);
+		pedido.setInstante(new Date());
+		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
+		pedido.getPagamento().setPedido(pedido);
+		if (pedido.getPagamento() instanceof PagamentoComBoleto) {
+			PagamentoComBoleto pagamentoComBoleto = (PagamentoComBoleto) pedido.getPagamento();
+			boletoService.preencherPagamentoComBoleto(pagamentoComBoleto, pedido.getInstante());
+		}
+		pedido = pedidoRepository.save(pedido);
+		pagamentoRepository.save(pedido.getPagamento());
+		for (ItemPedido ip : pedido.getItens()) {
+			ip.setDesconto(0.0);
+			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			ip.setPedido(pedido);
+		}
+		itemPedidoRepository.saveAll(pedido.getItens());
+		return pedido;
 	}
 
 }
