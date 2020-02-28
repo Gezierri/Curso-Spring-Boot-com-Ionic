@@ -10,21 +10,18 @@ import org.springframework.context.annotation.Profile;
 import com.cursomc.service.DBService;
 
 @Configuration
-@Profile("test")
+@Profile("dev")
 public class DevConfig {
 
 	@Autowired
 	private DBService dbService;
-	/*
-	 * @Value("${spring.jpa.hibernate.ddl-auto}") private String strategy;
-	 */
+	
+	  
+	 
 	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
-		
-		/*
-		 * if (!"create".equals(strategy)) { return false; }
-		 */
+		 
 		dbService.instantiationDatabase();
 		return true;
 	}
