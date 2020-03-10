@@ -40,6 +40,7 @@ public class ClienteResources {
 		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> listAll(){
 		List<Cliente> lista = clienteService.findAll();
@@ -47,7 +48,6 @@ public class ClienteResources {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<Cliente> insert(@Valid @RequestBody ClienteNewDTO clienteNewDTO){
 		Cliente cliente = clienteService.fromDto(clienteNewDTO);
@@ -57,7 +57,6 @@ public class ClienteResources {
 		return  ResponseEntity.created(uri).body(cliente);
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Integer id){
 		Cliente cliente = clienteService.fromDto(clienteDTO);
