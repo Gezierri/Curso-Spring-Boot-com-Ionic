@@ -16,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.cursomc.dto.CredenciaisDto;
+import com.cursomc.dto.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
@@ -36,8 +36,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse res) throws AuthenticationException {
 
 		try {
-			CredenciaisDto creds = new ObjectMapper()
-	                .readValue(req.getInputStream(), CredenciaisDto.class);
+			CredenciaisDTO creds = new ObjectMapper()
+	                .readValue(req.getInputStream(), CredenciaisDTO.class);
 
 	        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
 

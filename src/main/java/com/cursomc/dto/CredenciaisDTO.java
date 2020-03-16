@@ -2,14 +2,14 @@ package com.cursomc.dto;
 
 import java.io.Serializable;
 
-public class CredenciaisDto implements Serializable{
+public class CredenciaisDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
 	private String senha;
 	
-	public CredenciaisDto() {
+	public CredenciaisDTO() {
 		
 	}
 	
